@@ -43,7 +43,7 @@ function draw(){frame=0;let moving=false;for(const k of ['t','x','y']){if(Math.a
  i.el.style.cssText=`left:${x-p.w/2}px;top:${y}px;width:${p.w}px;height:${g.h}px;--art-height:${g.h}px`;
  for(const img of i.el.querySelectorAll('img')){const quality=g.h>170?'detail':'preview';if(img.dataset.quality!==quality){img.src=quality==='detail'?img.dataset.detail:img.dataset.detail.replace('assets/','previews/');img.dataset.quality=quality}}
  i.label.textContent=camera.t>.95?(i.c.detailName||i.c.name):i.c.name;i.caption.hidden=!names;i.caption.style.cssText=`top:${g.h+9}px;font-size:${camera.t>.95?14:clamp(8+camera.t*4,8,12)}px`;
- i.tag.hidden=!names||info||g.narrow;i.tag.textContent=i.heading;i.info.hidden=!info;i.info.textContent=i.c.brand+' · '+i.c.style;
+ i.tag.hidden=g.narrow?!i.heading:!names||info;i.tag.textContent=i.heading;i.info.hidden=!info;i.info.textContent=i.c.brand+' · '+i.c.style;
  i.el.setAttribute('aria-current',String(i.c.id===lockedId));
  }
  if(moving)wake();
