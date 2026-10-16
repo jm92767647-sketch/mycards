@@ -10,7 +10,7 @@ function prepare(){return(sort==='style'?styleRows:brandRows).map(names=>({group
 function geometry(t){
  const narrow=W<=760,compact=narrow||H/rows.length<105,label=compact?0:48,head=compact?0:24;
  const fit=(gap,section)=>Math.min(...rows.map(row=>{const cards=row.groups.flatMap(g=>g.cards);return (W-32-(cards.length-1)*gap-(row.groups.length-1)*section)/cards.reduce((n,c)=>n+units(c),0)}));
- const sectionGap=clamp(W*.05,24,96),fullFit=fit(8,sectionGap);
+ const sectionGap=sort==='brand'?clamp(W*.012,8,24):clamp(W*.05,24,96),fullFit=fit(8,sectionGap);
  const overview=Math.max(3,Math.min(fullFit,(H-28)/rows.length-label-head-10));
  const three=Math.max(3,Math.min(fullFit,H/3-label-head-14));
  const two=Math.max(three,Math.min(fullFit,H/2-label-head-20));
@@ -25,6 +25,7 @@ function geometry(t){
  ]:[{t:0,h:overview,pitch:overview+label+head+12,gap:8,section:sectionGap},{t:.32,h:three,pitch:H/3,gap:8,section:sectionGap},{t:.48,h:two,pitch:H/2,gap:8,section:sectionGap},{t:.86,h:close,pitch:Math.max(close+100,H*.68),gap:32,section:sectionGap},{t:1,h:close,pitch:H/2+close/2+60,gap:isolatedGap,section:sectionGap}];
  const hi=keys.findIndex(k=>k.t>=t);let g=keys[0];if(hi>0){const a=keys[hi-1],b=keys[hi],u=(t-a.t)/(b.t-a.t);g={h:mix(a.h,b.h,u),pitch:mix(a.pitch,b.pitch,u),gap:mix(a.gap,b.gap,u),section:mix(a.section,b.section,u)}}
  if(!narrow&&t>.48&&t<1){const extra=Math.sin(Math.PI*(t-.48)/.52)*Math.min(120,H*.16);g.pitch=Math.min(H/2+close/2+60,g.pitch+extra)}
+ if(sort==='brand'){g.gap=Math.min(g.gap,narrow?12:20);g.pitch=Math.min(g.pitch,g.h+(narrow?mix(14,80,clamp((t-.2)/.5,0,1)):64))}
  return{...g,narrow};
 }
 function positions(g){const out=new Map();rows.forEach((row,r)=>{const cards=row.groups.flatMap(group=>group.cards),total=cards.reduce((n,c)=>n+units(c)*g.h,0)+(cards.length-1)*g.gap+(row.groups.length-1)*g.section;let x=W/2-total/2;row.groups.forEach((group,gi)=>{group.cards.forEach(c=>{const w=units(c)*g.h;out.set(c.id,{x:x+w/2,y:H/2+(r-(rows.length-1)/2)*g.pitch,w});x+=w+g.gap});if(gi<row.groups.length-1)x+=g.section})});return out;}
