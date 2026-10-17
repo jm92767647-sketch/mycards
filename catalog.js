@@ -18,7 +18,7 @@
   const card=document.createElement('article');card.className='catalog-card';card.dataset.deck=deck.id;card.style.setProperty('--deck-units',units(deck));
   const photo=document.createElement('div');photo.className='catalog-photo';const art=document.createElement('div');art.className='catalog-deck-art';
   [deck.back,...deck.fronts].forEach((src,index)=>{const img=new Image();img.src=src;img.alt=(deck.detailName||deck.name)+(index?' 앞면 '+index:' 뒷면');img.className=index?'front':'back';img.loading='lazy';img.decoding='async';art.append(img)});
-  photo.append(art);const caption=document.createElement('div');caption.className='catalog-caption';const brand=document.createElement('span');brand.textContent=cardBrandLabel(deck.brand);const name=document.createElement('h3');name.textContent=deck.detailName||deck.name;caption.append(brand,name);card.append(photo,caption);return card;
+  photo.append(art);const caption=document.createElement('div');caption.className='catalog-caption';const brand=document.createElement('span');brand.textContent=[cardBrandLabel(deck.brand),deck.style].filter(Boolean).join(' · ');const name=document.createElement('h3');name.textContent=deck.detailName||deck.name;caption.append(brand,name);card.append(photo,caption);return card;
  }
  function renderCatalog(){
   const entries=groups(),group=entries.find(g=>g.name===catalogGroup);pane.replaceChildren();pane.dataset.mode=catalogMode;
