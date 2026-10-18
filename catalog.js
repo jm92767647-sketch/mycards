@@ -1,6 +1,6 @@
 // List navigation has its own selection and scroll state; it never resets the camera.
 (()=>{
- let presentation='list',catalogMode='brand',catalogGroup=null;
+ let presentation='list',catalogMode='style',catalogGroup=null;
  const pane=document.querySelector('#catalog-pane');
  const label=name=>catalogMode==='brand'?cardBrandLabel(name):name;
  const groups=()=>groupedCards(catalogMode).flatMap(row=>row.groups).filter(group=>group.cards.length);
