@@ -28,7 +28,7 @@
   }else{
    const head=document.createElement('div');head.className='catalog-group-head';const back=document.createElement('button');back.id='catalog-back';back.setAttribute('aria-label','뒤로가기');back.innerHTML='<svg viewBox="0 0 32 24" fill="none" aria-hidden="true"><path d="M30 12H3M13 2 3 12l10 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
    const title=document.createElement('h2');title.textContent=label(group.name);title.tabIndex=-1;const count=document.createElement('span');count.className='catalog-group-count';count.textContent=group.cards.length;head.append(back,title,count);
-   const area=document.createElement('div');area.className='catalog-products-area';const products=document.createElement('div');products.className='catalog-products';
+   const area=document.createElement('div');area.className='catalog-products-area';area.dataset.flow=catalogMode==='style'&&group.name==='Classic Style Back'?'vertical':'rows';const products=document.createElement('div');products.className='catalog-products';
    const split=group.cards.length>1?Math.ceil(group.cards.length/2):1;
    for(let index=0;index<group.cards.length;index+=split){const row=document.createElement('div');row.className='catalog-row';for(const deck of group.cards.slice(index,index+split))row.append(deckCard(deck));products.append(row)}area.append(products);pane.append(head,area);fitCatalog();
   }

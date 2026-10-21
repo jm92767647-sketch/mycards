@@ -44,3 +44,10 @@ body[data-presentation=free] #catalog-pane{display:none}
 }
 @media(max-width:360px){.number-order-switch{width:118px}.number-heading{gap:6px}}
 @media(prefers-reduced-motion:reduce){.view-switch::before,.number-order-switch::before{transition:none}}
+
+/* Only the desktop Classic Style Back detail continues downward. */
+@media(min-width:761px){
+ .catalog-products-area[data-flow=vertical]{overflow-x:hidden;overflow-y:auto;scrollbar-gutter:stable}
+ .catalog-products-area[data-flow=vertical] .catalog-products{width:100%;min-width:0;flex-direction:row;flex-wrap:wrap;align-items:flex-start;align-content:flex-start;justify-content:flex-start}
+ .catalog-products-area[data-flow=vertical] .catalog-row{display:contents}
+}
