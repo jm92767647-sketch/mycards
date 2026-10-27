@@ -4,7 +4,7 @@
  const pane=document.querySelector('#catalog-pane');
  const label=name=>catalogMode==='brand'?cardBrandLabel(name):name;
  const groups=()=>groupedCards(catalogMode).flatMap(row=>row.groups).filter(group=>group.cards.length);
- function syncNavigation(){document.querySelectorAll('#classification [data-sort]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.sort===(presentation==='list'?catalogMode:sort))));}
+ function syncNavigation(){const active=presentation==='list'?catalogMode:sort;document.querySelector('#count').textContent=active==='marking'?CARDS.filter(card=>card.marked).length:CARDS.length;document.querySelectorAll('#classification [data-sort]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.sort===(presentation==='list'?catalogMode:sort))));}
  function fitCatalog(){
   const area=pane.querySelector('.catalog-products-area');if(!area||presentation!=='list')return;
   const cards=[...pane.querySelectorAll('.catalog-card')],mobile=matchMedia('(max-width:760px)').matches;
@@ -18,7 +18,7 @@
   const card=document.createElement('article');card.className='catalog-card';card.dataset.deck=deck.id;card.style.setProperty('--deck-units',units(deck));
   const photo=document.createElement('div');photo.className='catalog-photo';const art=document.createElement('div');art.className='catalog-deck-art';
   [deck.back,...deck.fronts].forEach((src,index)=>{const img=new Image();img.src=src;img.alt=(deck.detailName||deck.name)+(index?' 앞면 '+index:' 뒷면');img.className=index?'front':'back';img.loading='lazy';img.decoding='async';art.append(img)});
-  photo.append(art);const caption=document.createElement('div');caption.className='catalog-caption';const brand=document.createElement('span');brand.textContent=[cardBrandLabel(deck.brand),deck.style].filter(Boolean).join(' · ');const name=document.createElement('h3');name.textContent=deck.detailName||deck.name;caption.append(brand,name);card.append(photo,caption);return card;
+  photo.append(art);const caption=document.createElement('div');caption.className='catalog-caption';const brand=document.createElement('span');brand.textContent=[cardBrandLabel(deck.brand),deck.style].filter(Boolean).join(' · ');if(deck.marked)brand.append(markingLabel());const name=document.createElement('h3');name.textContent=deck.detailName||deck.name;caption.append(brand,name);card.append(photo,caption);return card;
  }
  function renderCatalog(){
   const entries=groups(),group=entries.find(g=>g.name===catalogGroup);pane.replaceChildren();pane.dataset.mode=catalogMode;
@@ -40,8 +40,8 @@
   syncNavigation();if(next==='list')fitCatalog();
  }
  document.querySelectorAll('[data-presentation-button]').forEach(button=>button.onclick=()=>setPresentation(button.dataset.presentationButton));
- document.querySelectorAll('#classification [data-sort]').forEach(button=>{const original=button.onclick;button.onclick=()=>{if(presentation==='free')original();else{catalogMode=button.dataset.sort;catalogGroup=null;renderCatalog()}}});
- pane.onclick=event=>{const entry=event.target.closest('[data-group]');if(entry){catalogGroup=entry.dataset.group;renderCatalog();pane.querySelector('.catalog-group-head h2')?.focus({preventScroll:true});return;}if(event.target.closest('#catalog-back')){const previous=catalogGroup;catalogGroup=null;renderCatalog();[...pane.querySelectorAll('[data-group]')].find(button=>button.dataset.group===previous)?.focus({preventScroll:true});}};
+ document.querySelectorAll('#classification [data-sort]').forEach(button=>{const original=button.onclick;button.onclick=()=>{if(presentation==='free'){original();syncNavigation()}else{catalogMode=button.dataset.sort;catalogGroup=catalogMode==='marking'?'Marking':null;renderCatalog()}}});
+ pane.onclick=event=>{const entry=event.target.closest('[data-group]');if(entry){catalogGroup=entry.dataset.group;renderCatalog();pane.querySelector('.catalog-group-head h2')?.focus({preventScroll:true});return;}if(event.target.closest('#catalog-back')){const previous=catalogGroup;if(catalogMode==='marking')catalogMode='style';catalogGroup=null;renderCatalog();[...pane.querySelectorAll('[data-group]')].find(button=>button.dataset.group===previous)?.focus({preventScroll:true});}};
  new ResizeObserver(fitCatalog).observe(pane);
  document.fonts.ready.then(fitCatalog);
  document.querySelector('#count').textContent=CARDS.length;

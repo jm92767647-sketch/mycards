@@ -65,6 +65,7 @@
  document.addEventListener('click',e=>{
   if(navigating||document.body.dataset.presentation!=='list')return;
   const collection=site==='pens'&&e.target.closest('header [data-section]');if(collection){daily=collection.dataset.section==='daily';active=0;home=true;render();return;}
+  if(site==='cards'&&e.target.closest('header [data-sort="marking"]')){home=false;sync();return;}
   const index=choices.findIndex(c=>c.selector&&e.target.closest(c.selector));
   if(index>=0){active=index;paint();}
  });

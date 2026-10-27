@@ -51,3 +51,8 @@ body[data-presentation=free] #catalog-pane{display:none}
  .catalog-products-area[data-flow=vertical] .catalog-products{width:100%;min-width:0;flex-direction:row;flex-wrap:wrap;align-items:flex-start;align-content:flex-start;justify-content:flex-start}
  .catalog-products-area[data-flow=vertical] .catalog-row{display:contents}
 }
+
+/* The mustard accent matches the watch collection limited-edition control. */
+header #classification button[data-sort=marking]{color:#80632c}
+.marking-label{display:inline!important;color:#80632c;font-size:inherit;font-weight:500;margin-left:.6em;white-space:nowrap}
+.catalog-caption .marking-label{color:#80632c;font-size:inherit}

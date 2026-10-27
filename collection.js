@@ -8,5 +8,7 @@ function collectionRows(key){
  for(const card of CARDS){const name=card[key];if(!known.has(name)){known.add(name);if(key==='style')layout.push([name]);else layout.at(-1).push(name);}}
  return layout;
 }
-function groupedCards(key){return collectionRows(key).map(names=>({groups:names.map(name=>({name,cards:CARDS.filter(c=>c[key]===name)}))}));}
+function groupedCards(key){if(key==='marking')return [{groups:[{name:'Marking',cards:CARDS.filter(card=>card.marked)}]}];return collectionRows(key).map(names=>({groups:names.map(name=>({name,cards:CARDS.filter(c=>c[key]===name)}))}));}
 function arrangedCards(key){return groupedCards(key).flatMap(row=>row.groups.flatMap(group=>group.cards));}
+
+function markingLabel(){const label=document.createElement('span');label.className='marking-label';label.textContent='Marking';return label;}
