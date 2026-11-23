@@ -132,3 +132,13 @@ body[data-entry-site="watches"] #collection-entry[data-menu]:has(> .collection-c
     top: -12px;
   }
 }
+
+/* Match the card choices to the car page's mobile vertical positions. */
+@media (max-width: 760px) {
+  body[data-entry-site="cards"] #collection-entry > .collection-choice { top: calc(79px - var(--menu-bar-height, 52px)); }
+  body[data-entry-site="cards"] #collection-entry > .collection-choice:nth-child(2) { top: calc(67px - var(--menu-bar-height, 52px)); }
+}
+@media (max-width: 327px) {
+  body[data-entry-site="cards"] #collection-entry > .collection-choice { top: calc(106px - var(--menu-bar-height, 52px)); }
+  body[data-entry-site="cards"] #collection-entry > .collection-choice:nth-child(2) { top: calc(94px - var(--menu-bar-height, 52px)); }
+}
