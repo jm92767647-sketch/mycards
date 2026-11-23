@@ -142,3 +142,8 @@ body[data-entry-site="watches"] #collection-entry[data-menu]:has(> .collection-c
   body[data-entry-site="cards"] #collection-entry > .collection-choice { top: calc(106px - var(--menu-bar-height, 52px)); }
   body[data-entry-site="cards"] #collection-entry > .collection-choice:nth-child(2) { top: calc(94px - var(--menu-bar-height, 52px)); }
 }
+
+/* Match the mobile card header to the collection header height. */
+@media (max-width: 760px) {
+  body[data-entry-site="cards"][data-menu-open] > header { min-height: 79px; }
+}
