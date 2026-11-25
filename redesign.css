@@ -151,3 +151,5 @@ body[data-menu-open] > header,body[data-presentation=list][data-menu-open] > hea
  body[data-entry-site=cards][data-menu-open] #collection-header #index-open{order:8}
  body[data-entry-site=cards][data-menu-open] #collection-header .collection-controls{order:9}
 }
+body[data-entry-home=true] #collection-entry[data-menu]{gap:clamp(14px,2vw,30px)!important}
+@media(max-width:760px){body[data-entry-home=true] #collection-entry[data-menu]{gap:12px!important}}
