@@ -22,8 +22,8 @@
  const marked=decks.filter(d=>d.marked);
  const art=path=>path?path.replace(/^assets\//,'previews/'):'';
  const CARDS_META={
-  'By Brand':{art:'previews/hwp-00.webp',ko:'브랜드별',note:()=>`${brands.length} MAKERS`},
-  'By Style':{art:'previews/hwp-19.webp',ko:'스타일별',note:()=>`${String(styles.length).padStart(2,'0')} BACKS`}
+  'By Brand':{art:'previews/hwp-00.webp',back:'previews/hwp-40.webp',ko:'브랜드별',tail:' · 바이시클부터 ARK까지',note:()=>`${brands.length} MAKERS`},
+  'By Style':{art:'previews/hwp-19.webp',back:'previews/hwp-30.webp',ko:'스타일별',tail:' · 오리지널부터 커스텀까지',note:()=>`${String(styles.length).padStart(2,'0')} BACKS`}
  };
 
  function decorate(){
@@ -40,14 +40,14 @@
    const meta=CARDS_META[title?.textContent.trim()];
    if(!meta)return;
    button.dataset.carded='true';
+   const deck=(src,cls)=>{const img=document.createElement('img');img.className=cls;img.src=src;img.alt='';img.loading='lazy';img.decoding='async';return img};
    const no=document.createElement('span');no.className='entry-card-no';no.textContent=String(i+1).padStart(2,'0');
-   const image=document.createElement('img');image.className='entry-card-art';image.src=meta.art;image.alt='';image.loading='lazy';image.decoding='async';
    const bodyWrap=document.createElement('span');bodyWrap.className='entry-card-body';
-   const foot=document.createElement('span');foot.className='entry-card-meta';
-   foot.innerHTML=`<span>${meta.ko}</span><b>${meta.note()}</b>`;
+   const ko=document.createElement('span');ko.className='entry-card-ko';ko.innerHTML=`${meta.ko}<i class="ko-tail">${meta.tail}</i>`;
+   const count=document.createElement('span');count.className='entry-card-count';count.textContent=meta.note();
    button.prepend(no);
-   bodyWrap.append(title,foot);
-   button.append(bodyWrap,image);
+   bodyWrap.append(title,ko);
+   button.append(bodyWrap,count,deck(meta.back,'entry-card-art back'),deck(meta.art,'entry-card-art'));
   });
  }
  if(entry){decorate();new MutationObserver(decorate).observe(entry,{childList:true});}
