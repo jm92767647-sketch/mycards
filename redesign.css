@@ -153,3 +153,35 @@ body[data-menu-open] > header,body[data-presentation=list][data-menu-open] > hea
 }
 body[data-entry-home=true] #collection-entry[data-menu]{gap:clamp(14px,2vw,30px)!important}
 @media(max-width:760px){body[data-entry-home=true] #collection-entry[data-menu]{gap:12px!important}}
+
+/* ---------- 2026-11-26: marking becomes a filter chip ---------- */
+body[data-presentation=list] > header .collection-controls{display:flex!important;order:2;gap:8px}
+body[data-entry-home=true] > header .collection-controls{display:none!important}
+body[data-presentation=list] > header #classification [data-sort=brand],body[data-presentation=list] > header #classification [data-sort=style]{display:none}
+body[data-presentation=list] > header #classification{gap:8px}
+body[data-presentation=list] > header #classification [data-sort=marking]{display:flex;align-items:center;gap:7px;min-height:30px;padding:6px 13px;border:1px solid var(--line);border-radius:999px;background:var(--paper-2);box-shadow:none;font-size:11.5px;letter-spacing:0;color:#6a7568!important;opacity:1!important}
+body[data-presentation=list] > header #classification [data-sort=marking]::before{content:'';display:block;width:5px;height:5px;border-radius:50%;background:#b08b3a;padding:0;mask:none;-webkit-mask:none;opacity:1;position:static}
+body[data-presentation=list] > header #classification [data-sort=marking][aria-pressed=true]{border-color:var(--gold);background:#e7ecdf;color:var(--ink-2)!important}
+@media(max-width:760px){
+ body[data-presentation=list][data-entry-site=pens] #collection-header .collection-controls,
+ body[data-presentation=list][data-entry-site=cards][data-menu-open] #collection-header .collection-controls{display:flex!important;order:2;width:auto}
+ body[data-entry-home=true][data-entry-site=cards][data-menu-open] #collection-header .collection-controls{display:none!important}
+ body[data-presentation=list] > header #classification [data-sort=marking]{min-height:26px;padding:5px 11px;font-size:10.5px}
+}
+
+/* entry cards sit straight */
+body[data-entry-home=true] #collection-entry .collection-choice:nth-child(1) .entry-card-art,
+body[data-entry-home=true] #collection-entry .collection-choice:nth-child(3) .entry-card-art{--tilt:0deg}
+body[data-entry-home=true] .entry-card-art{transform:none}
+body[data-entry-home=true] #collection-entry .collection-choice:hover .entry-card-art{transform:translateY(-6px)}
+
+/* directory keeps its original two columns of names */
+body[data-presentation=list] .catalog-entry{grid-template-columns:minmax(0,1fr) auto 26px}
+@media(max-width:760px){body[data-presentation=list] .catalog-entry{grid-template-columns:minmax(0,1fr) auto 20px}}
+
+/* statistics: no folds, and the order switch matches LIST / ROAM */
+dialog#numbers .number-order-switch{position:relative;display:flex;width:168px;height:30px;padding:3px;border:1px solid var(--line);border-radius:999px;background:#e2e7db}
+dialog#numbers .number-order-switch::before{display:none}
+dialog#numbers .number-order-switch button{flex:1;min-height:0;padding:0;border:0;border-radius:999px;background:none;box-shadow:none;font-size:10.5px;letter-spacing:.14em;color:var(--mute)!important;opacity:1!important;transition:color .25s,background .25s}
+dialog#numbers .number-order-switch button[aria-pressed=true]{color:var(--paper)!important;background:var(--ink)}
+dialog#numbers .number-section h3{display:block;font-size:11px;letter-spacing:.2em;color:var(--mute);font-weight:400;margin:18px 0 8px;padding-bottom:7px;border-bottom:1px solid var(--line)}

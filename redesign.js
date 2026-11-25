@@ -23,8 +23,7 @@
  const art=path=>path?path.replace(/^assets\//,'previews/'):'';
  const CARDS_META={
   'By Brand':{art:'previews/hwp-00.webp',ko:'브랜드별',note:()=>`${brands.length} MAKERS`},
-  'By Style':{art:'previews/hwp-18.webp',ko:'스타일별',note:()=>`${String(styles.length).padStart(2,'0')} BACKS`},
-  'Marking':{art:'previews/hwp-19.webp',ko:'마킹덱',note:()=>`${String(marked.length).padStart(2,'0')} DECKS`}
+  'By Style':{art:'previews/hwp-19.webp',ko:'스타일별',note:()=>`${String(styles.length).padStart(2,'0')} BACKS`}
  };
 
  function decorate(){
@@ -34,13 +33,6 @@
    head.innerHTML='<span>Elect</span><em>decks.</em>';
    const rule=document.createElement('div');rule.className='entry-rule';rule.setAttribute('aria-hidden','true');
    entry.append(head,rule);
-  }
-  if(!entry.querySelector('[data-choice-marking]')&&$('header [data-sort="marking"]')){
-   const button=document.createElement('button');
-   button.type='button';button.className='collection-choice';button.dataset.choiceMarking='true';
-   button.innerHTML='<span class="collection-choice-title">Marking</span>';
-   button.addEventListener('click',()=>$('header [data-sort="marking"]').click());
-   entry.append(button);
   }
   entry.querySelectorAll('.collection-choice').forEach((button,i)=>{
    if(button.dataset.carded)return;
@@ -76,12 +68,9 @@
     const span=document.createElement('span');span.className='cat-name';span.textContent=button.textContent.trim();
     button.textContent='';button.append(span);
    }
-   const pick=REPRESENTATIVE[name]||group[0].back;
-   const image=document.createElement('img');
-   image.className='cat-thumb';image.src=art(pick);image.alt='';image.loading='lazy';image.decoding='async';
    const count=document.createElement('span');count.className='cat-count';count.textContent=String(group.length).padStart(2,'0');
    const arrow=document.createElement('span');arrow.className='cat-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='→';
-   button.prepend(image);button.append(count,arrow);
+   button.append(count,arrow);
   });
  }
  if(pane){decorateDirectory();new MutationObserver(decorateDirectory).observe(pane,{childList:true,subtree:true});}
@@ -94,20 +83,7 @@
  openButton.setAttribute('aria-label','컬렉션 통계');
  openButton.innerHTML='<span class="ix-dots" aria-hidden="true">'+'<i></i>'.repeat(3)+'</span>';
  header.append(openButton);
- function foldSections(){
-  if(!numbers)return;
-  numbers.querySelectorAll('.number-section').forEach(section=>{
-   if(section.closest('details'))return;
-   const heading=section.querySelector('h3');
-   const list=section.querySelector('ul');
-   if(!heading||!list)return;
-   const fold=document.createElement('details');
-   const summary=document.createElement('summary');
-   summary.innerHTML=`<span>${heading.textContent} · ${String(list.children.length).padStart(2,'0')}</span><span class="ix-sign">+</span>`;
-   section.replaceWith(fold);fold.append(summary,section);
-  });
- }
- openButton.onclick=()=>{oldButton?.click();setTimeout(foldSections,0)};
+ openButton.onclick=()=>oldButton?.click();
 
  /* list and roam hand over behind a paper veil */
  const main=document.querySelector('main');
