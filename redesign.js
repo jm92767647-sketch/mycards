@@ -22,8 +22,8 @@
  const marked=decks.filter(d=>d.marked);
  const art=path=>path?path.replace(/^assets\//,'previews/'):'';
  const CARDS_META={
-  'By Brand':{art:'previews/hwp-00.webp',back:'previews/hwp-40.webp',ko:'브랜드별',tail:' · 바이시클부터 ARK까지',note:()=>`${brands.length} MAKERS`},
-  'By Style':{art:'previews/hwp-19.webp',back:'previews/hwp-30.webp',ko:'스타일별',tail:' · 오리지널부터 커스텀까지',note:()=>`${String(styles.length).padStart(2,'0')} BACKS`}
+  'By Brand':{art:'previews/hwp-00.webp',back:'assets/hwp-04.webp',ko:'브랜드별',tail:' · 바이시클부터 ARK까지',note:()=>`${brands.length} MAKERS`},
+  'By Style':{art:'previews/hwp-19.webp',back:'assets/butterfly-spring-borderless-back.webp',ko:'스타일별',tail:' · 오리지널부터 커스텀까지',note:()=>`${String(styles.length).padStart(2,'0')} BACKS`}
  };
 
  function decorate(){
