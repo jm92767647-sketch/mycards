@@ -76,14 +76,50 @@
  if(pane){decorateDirectory();new MutationObserver(decorateDirectory).observe(pane,{childList:true,subtree:true});}
 
  /* INDEX mark opens the statistics */
- const numbers=$('#numbers'),oldButton=$('#number');
  const openButton=document.createElement('button');
  openButton.id='index-open';openButton.type='button';
  openButton.setAttribute('aria-haspopup','dialog');
  openButton.setAttribute('aria-label','컬렉션 통계');
  openButton.innerHTML='<span class="ix-dots" aria-hidden="true">'+'<i></i>'.repeat(3)+'</span>';
  header.append(openButton);
- openButton.onclick=()=>oldButton?.click();
+
+ const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const bars=entries=>{
+  const max=Math.max(...entries.map(([,n])=>n),1);
+  return entries.map(([lab,n])=>`<div class="ix-bar"><span>${esc(lab)}</span><u style="--w:${Math.round(n/max*100)}%"></u><b>${String(n).padStart(2,'0')}</b></div>`).join('');
+ };
+ const fold=(title,count,entries)=>`<details><summary><span>${title} · ${String(count).padStart(2,'0')}</span><span class="ix-sum-right">COUNT<span class="ix-sign">+</span></span></summary><div class="ix-bars">${bars(entries)}</div></details>`;
+ const tally=(keys,test)=>keys.map(k=>[k,decks.filter(d=>test(d,k)).length]).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+
+ const dialog=document.createElement('dialog');
+ dialog.id='index-dialog';dialog.setAttribute('aria-labelledby','index-title');
+ document.body.append(dialog);
+ function build(){
+  const brandEntries=tally(brands,(d,k)=>d.brand===k);
+  const styleEntries=tally(styles,(d,k)=>d.style===k);
+  dialog.innerHTML=`<button type="button" class="ix-close" aria-label="닫기">✕</button><div class="ix-wrap">
+   <div class="ix-head">
+    <div><div class="ix-eyebrow">CARD COLLECTION × NUMBERS</div><h2 id="index-title">Index <em>&amp; Numbers</em></h2></div>
+    <div class="ix-stats">
+     <div><b>${decks.length}</b><span>DECKS</span></div>
+     <div><b>${brands.length}</b><span>BRANDS</span></div>
+     <div><b>${String(styles.length).padStart(2,'0')}</b><span>BACKS</span></div>
+     <div><b>${String(marked.length).padStart(2,'0')}</b><span>MARKED</span></div>
+    </div>
+   </div>
+   <div class="ix-folds">
+    ${fold('브랜드별',brandEntries.length,brandEntries)}
+    ${fold('스타일별',styleEntries.length,styleEntries)}
+   </div>
+  </div>`;
+  dialog.querySelector('.ix-close').onclick=()=>dialog.close();
+ }
+ openButton.onclick=()=>{build();dialog.showModal()};
+ dialog.addEventListener('click',event=>{
+  if(event.target!==dialog)return;
+  const r=dialog.getBoundingClientRect();
+  if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();
+ });
 
  /* list and roam hand over behind a paper veil */
  const main=document.querySelector('main');
