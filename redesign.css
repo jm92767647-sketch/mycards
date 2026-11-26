@@ -19,8 +19,8 @@ header nav button:hover{color:var(--ink)!important;background:none}
 header nav button[aria-pressed=true]{color:var(--ink)!important;border-bottom:1px solid var(--gold)}
 
 header .view-switch{width:132px;height:32px;background:#e7e1d6;border:1px solid var(--line);border-radius:999px;padding:3px}
-header .view-switch button{font-size:10.5px;letter-spacing:.16em;color:var(--mute)!important;opacity:1!important;border-radius:999px;background:none;box-shadow:none;border:0;transition:color .25s,background .25s}
-header .view-switch button::before,header .view-switch::before{display:none}
+header .view-switch button{font-size:10.5px;letter-spacing:.16em;color:var(--mute)!important;opacity:1!important;border-radius:999px!important;background:none;box-shadow:none;border:0;transition:color .25s,background .25s}
+header .view-switch button::before,header .view-switch::before{display:none!important}
 header .view-switch button[aria-pressed=true]{color:var(--paper)!important;background:var(--ink)}
 
 #index-open{order:9;display:grid;place-items:center;border:0;background:none;box-shadow:none;padding:8px 4px;min-height:0}
